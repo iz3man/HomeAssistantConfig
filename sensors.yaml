@@ -1,0 +1,232 @@
+- platform: time_date
+  display_options:
+      - 'time'
+      - 'date'
+- platform: worldclock
+  time_zone: Etc/UTC
+  name: 'UTC'
+- platform: worldclock
+  time_zone: Europe/Vienna
+  name: 'Wien'
+
+- platform: google_travel_time
+  name: Zeit nach Hause
+  api_key: !secret google_travel_time_api_key
+  origin: !secret google_travel_time_work
+  destination: !secret google_travel_time_home
+
+- platform: google_travel_time
+  name: Zeit ins Buero
+  api_key: !secret google_travel_time_api_key
+  origin: !secret google_travel_time_home
+  destination: !secret google_travel_time_work
+
+- platform: mqtt
+  state_topic: "powerconsumption/today"
+  name: 'today kWh'
+  unit_of_measurement: 'kWh'
+  value_template: '{{ value_json | round (2) }}'
+
+- platform: template
+  sensors:
+    hp_online:
+      value_template: "{% if states.device_tracker.hp_laserjet %}
+        {% if is_state('device_tracker.hp_laserjet', 'home') %}
+          Online
+        {% else %}
+          Offline
+        {% endif %}
+        {% else %}
+          Unknown
+        {% endif %}"
+      friendly_name: 'HP Laserjet'
+
+- platform: template
+  sensors:
+    1080_1_online:
+      value_template: "{% if 'states.device_tracker.1080_1' %}
+        {% if is_state('device_tracker.1080_1', 'home') %}
+          Online
+        {% else %}
+          Offline
+        {% endif %}
+        {% else %}
+          Unknown
+        {% endif %}"
+      friendly_name: 'CAM Einfahrt'
+
+- platform: template
+  sensors:
+    worx_online:
+      value_template: "{% if states.device_tracker.landroid_s %}
+        {% if is_state('device_tracker.landroid_s', 'home') %}
+          Online
+        {% else %}
+          Offline
+        {% endif %}
+        {% else %}
+          Unknown
+        {% endif %}"
+      friendly_name: 'Landroid Worx'
+
+- platform: template
+  sensors:
+    hourly_power_consumption:
+      value_template: >
+        {{ (float(states.sensor.today_kwh.state) - float(states.input_number.lasthour_power_consumption.state)) | round(2) }}
+      unit_of_measurement: 'kWh'
+      friendly_name: "Hourly Power Use"
+
+- platform: template
+  sensors:
+    todays_power_consumption:
+      value_template: >
+        {{ (float(states.sensor.today_kwh.state) - float(states.input_number.yesterday_power_consumption.state)) | round(2) }}
+      unit_of_measurement: 'kWh'
+      friendly_name: "Today's Power Use"
+
+- platform: template
+  sensors:
+    weeks_power_consumption:
+      value_template: >
+        {{ (float(states.sensor.today_kwh.state) - float(states.input_number.lastweek_power_consumption.state)) | round(2) }}
+      unit_of_measurement: 'kWh'
+      friendly_name: "Week's Power Use"
+
+- platform: template
+  sensors:
+    months_power_consumption:
+      value_template: >
+        {{ (float(states.sensor.today_kwh.state) - float(states.input_number.lastmonth_power_consumption.state)) | round(2) }}
+      unit_of_measurement: 'kWh'
+      friendly_name: "Month's Power Use"
+
+- platform: yr
+
+- platform: mqtt
+  name: "Pooltemperatur.Wifi"
+  state_topic: "poolthermometer/temperature"
+  value_template: '{{  value_json | round(2) }}'
+  unit_of_measurement: "C"
+
+- platform: mqtt
+  name: "Voltage.Wifi"
+  state_topic: "poolthermometer/vcc"
+  value_template: '{{  value_json | round(0) }}'
+  unit_of_measurement: "V"
+
+
+- platform: mqtt
+  name: "Stromverbrauch"
+  state_topic: "sensors/rtl_433/CM160/power_W"
+  value_template: '{{  value_json | round(0) }}'
+  unit_of_measurement: "W"
+
+- platform: mqtt
+  name: "Therme.Vorlauf"
+  state_topic: "tele/therme/SENSOR"
+  value_template: '{{ value_json["DS18B20-2"]["Temperature"] }}'
+  unit_of_measurement: "°C"
+
+- platform: mqtt
+  name: "Therme.Ruecklauf"
+  state_topic: "tele/therme/SENSOR"
+  value_template: '{{ value_json["DS18B20-1"]["Temperature"] }}'
+  unit_of_measurement: "°C"
+
+- platform: mqtt
+  name: "Gartenhuette"
+  state_topic: "tele/worxcharger/SENSOR"
+  value_template: '{{ value_json["DS18B20"]["Temperature"] }}'
+  unit_of_measurement: "°C"
+
+- platform: mqtt
+  name: "Today.Waermepumpe"
+  state_topic: "tele/waermepumpe/SENSOR"
+  value_template: '{{ value_json["ENERGY"]["Today"] | round(2) }}'
+  unit_of_measurement: "kWh"
+
+- platform: mqtt
+  name: "Total.Waermepumpe"
+  state_topic: "tele/waermepumpe/SENSOR"
+  value_template: '{{ value_json["ENERGY"]["Total"] | round(1) }}'
+  unit_of_measurement: "kWh"
+
+- platform: mqtt
+  name: "Yesterday.Waermepumpe"
+  state_topic: "tele/waermepumpe/SENSOR"
+  value_template: '{{ value_json["ENERGY"]["Yesterday"] | round(2) }}'
+  unit_of_measurement: "kWh"
+
+- platform: mqtt
+  name: "Power.Waermepumpe"
+  state_topic: "tele/waermepumpe/SENSOR"
+  value_template: '{{ value_json["ENERGY"]["Power"] | round(0) }}'
+  unit_of_measurement: "W"
+
+- platform: mqtt
+  name: "Voltage"
+  state_topic: "tele/waermepumpe/SENSOR"
+  value_template: '{{ value_json["ENERGY"]["Voltage"] | round(1) }}'
+  unit_of_measurement: "V"
+
+- platform: mqtt
+  name: "Today.Poolpumpe"
+  state_topic: "tele/poolpumpe/SENSOR"
+  value_template: '{{ value_json["ENERGY"]["Today"] | round(2) }}'
+  unit_of_measurement: "kWh"
+
+- platform: mqtt
+  name: "Power.Poolpumpe"
+  state_topic: "tele/poolpumpe/SENSOR"
+  value_template: '{{ value_json["ENERGY"]["Power"] | round(0) }}'
+  unit_of_measurement: "W"
+
+- platform: mqtt
+  name: "Yesterday.Poolpumpe"
+  state_topic: "tele/poolpumpe/SENSOR"
+  value_template: '{{ value_json["ENERGY"]["Yesterday"] | round(2) }}'
+  unit_of_measurement: "kWh"
+
+- platform: mqtt
+  name: "Total.Poolpumpe"
+  state_topic: "tele/poolpumpe/SENSOR"
+  value_template: '{{ value_json["ENERGY"]["Total"] | round(1) }}'
+  unit_of_measurement: "kWh"
+
+- platform: mqtt
+  name: "Temperatur.Schachtpumpe"
+  state_topic: "tele/schachtpumpe/SENSOR"
+  value_template: '{{ value_json["SI7021"]["Temperature"] }}'
+  unit_of_measurement: "°C"
+
+- platform: mqtt
+  name: "Feuchtigkeit.Schachtpumpe"
+  state_topic: "tele/schachtpumpe/SENSOR"
+  value_template: '{{ value_json["SI7021"]["Humidity"] }}'
+  unit_of_measurement: "%"
+
+- platform: mqtt
+  name: "Wasserstand.Schachtpumpe"
+  state_topic: "cmnd/schachtrelais/POWER1"
+
+- platform: mqtt
+  name: "Sauna.Temperatur"
+  state_topic: "tele/sauna/SENSOR"
+  value_template: '{{ value_json["SI7021"]["Temperature"] }}'
+  unit_of_measurement: "°C"
+
+- platform: mqtt
+  name: "Sauna.Feuchtigkeit"
+  state_topic: "tele/sauna/SENSOR"
+  value_template: '{{ value_json["SI7021"]["Humidity"] }}'
+  unit_of_measurement: "%"
+
+- platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+      arg: /
+    - type: memory_free
+    - type: memory_use_percent
+    - type: load_15m
+    - type: processor_use

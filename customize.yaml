@@ -1,0 +1,88 @@
+sensor.hourly_power_consumption:
+  icon: mdi:powerplug
+sensor.todays_power_consumption:
+  icon: mdi:powerplug
+sensor.weeks_power_consumption:
+  icon: mdi:powerplug
+sensor.months_power_consumption:
+  icon: mdi:powerplug
+sensor.gartenhuette:
+  icon: mdi:temperature-celsius
+sensor.heizung_temperature:
+  friendly_name: Raumtemperatur
+sensor.heizung_humidity:
+  friendly_name: Luftfeuchtigkeit
+sensor.heizung_heating:
+  friendly_name: Heizleistung
+  icon: mdi:radiator
+sensor.thermeruecklauf:
+  friendly_name: Ruecklauf
+  icon: mdi:temperature-celsius
+sensor.thermevorlauf:
+  friendly_name: Vorlauf
+  icon: mdi:temperature-celsius
+sensor.aussentemperatur_funk:
+  friendly_name: Temperatur Funk
+  icon: mdi:thermometer
+  unit_of_measurement: °C
+sensor.aussenluftfeuchtigkeit_funk:
+  friendly_name: Luftfeuchtigkeit Funk
+  icon: mdi:water-percent
+sensor.speedtest_ping:
+  icon: mdi:speedometer
+  friendly_name: Ping
+sensor.speedtest_download:
+  icon: mdi:download
+  friendly_name: Download
+sensor.speedtest_upload:
+  icon: mdi:upload
+  friendly_name: Upload
+switch.poollicht:
+  icon: mdi:lightbulb-on-outline
+  emulated_hue: true
+sensor.stromverbrauch:
+  friendly_name: Stromverbrauch
+  icon: mdi:gas-station
+sensor.powerpoolpumpe:
+  friendly_name: Leistung Poolpumpe
+  icon: mdi:power-plug
+sensor.energypoolpumpe:
+  friendly_name: Verbrauch Poolpumpe
+  icon: mdi:gas-station
+sensor.powerwaermepumpe:
+  friendly_name: Leistung Waermepumpe
+  icon: mdi:power-plug
+sensor.energywaermepumpe:
+  friendly_name: Verbrauch Waermepumpe
+  icon: mdi:gas-station
+sensor.voltage:
+  friendly_name: Spannung
+  icon: mdi:flash
+switch.waermepumpe:
+  friendly_name: Wärmepumpe
+  icon: mdi:fire
+switch.poolpumpe:
+  icon: mdi:water-pump
+  emulated_hue: true
+sensor.zeit_ins_buero:
+  icon: mdi:worker
+sensor.zeit_nach_hause:
+  icon: mdi:home
+sensor.sab_left:
+  icon: mdi:playlist-check
+sensor.sab_speed:
+  icon: mdi:download
+sensor.sab_disk:
+  icon: mdi:database
+sensor.sab_disk_free:
+  icon: mdi:database
+sensor.sab_status:
+  icon: mdi:database-search
+sensor.sab_daily_total:
+  icon: mdi:database-plus
+sensor.sab_weekly_total:
+  icon: mdi:database-plus
+sensor.sab_monthly_total:
+  icon: mdi:database-plus
+sensor.sab_total:
+  icon: mdi:database-settings

@@ -1,0 +1,20 @@
+lasthour_power_consumption:
+  name: Last Hour Power Level
+  min: 0
+  max: 999999
+  mode: box
+yesterday_power_consumption:
+  name: Yesterday Power Level
+  min: 0
+  max: 999999
+  mode: box
+lastweek_power_consumption:
+  name: Last Week Power Level
+  min: 0
+  max: 999999
+  mode: box
+lastmonth_power_consumption:
+  name: Monthly Power Level
+  min: 0
+  max: 999999
+  mode: box

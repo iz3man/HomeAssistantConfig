@@ -1,0 +1,67 @@
+- alias: Power Consumption at start of the hour
+  initial_state: True
+  trigger:
+    platform: time_pattern
+    minutes: '/60'
+    seconds: 0
+  action:
+    service: input_number.set_value
+    data_template:
+      entity_id: input_number.lasthour_power_consumption
+      value: "{{ states.sensor.today_kwh.state }}"
+
+- alias: Power Consumption at start of the day
+  initial_state: True
+  trigger:
+    platform: time
+    at: '00:00'
+  action:
+    service: input_number.set_value
+    data_template:
+      entity_id: input_number.yesterday_power_consumption
+      value: "{{ states.sensor.today_kwh.state }}"
+
+- alias: Power Consumption at start of the week
+  initial_state: True
+  trigger:
+    platform: time
+    at: '00:00'
+  condition:
+    condition: time
+    weekday:
+      - mon
+  action:
+    service: input_number.set_value
+    data_template:
+      entity_id: input_number.lastweek_power_consumption
+      value: "{{ states.sensor.today_kwh.state }}"
+
+- alias: Power Consumption at start of the month
+  initial_state: True
+  trigger:
+    platform: time
+    at: '00:00'
+  condition:
+    - condition: template
+      value_template: "{{ now().day == 1 }}"
+  action:
+    service: input_number.set_value
+    data_template:
+      entity_id: input_number.lastmonth_power_consumption
+      value: "{{ states.sensor.today_kwh.state }}"
+
+
+
+
+- alias: power usage
+  initial_state: True
+  trigger:
+    - platform: time_pattern
+      seconds: '/30'
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: "powerconsumption/today"
+        payload: '{{( states.sensor.today_kwh.state | float + (states.sensor.stromverbrauch.state | float / 120000 )) | round(5)}}'
+        retain: true
+
