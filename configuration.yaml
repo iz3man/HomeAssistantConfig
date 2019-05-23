@@ -32,7 +32,6 @@ weather:
 
 # http Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
-  api_password: dLha31AG
   trusted_networks:
     - 192.168.1.0/24
     - 127.0.0.1
@@ -45,7 +44,7 @@ http:
 #    region: rest_of_world
 
 sabnzbd:
-  api_key: a7917fcdd30393745b8bdcd31cd067aa
+  api_key: !secret api_key
   host: izeman.net
   name: sab
   port: 9090
