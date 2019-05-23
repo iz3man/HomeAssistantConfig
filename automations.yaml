@@ -65,3 +65,85 @@
         payload: '{{( states.sensor.today_kwh.state | float + (states.sensor.stromverbrauch.state | float / 120000 )) | round(5)}}'
         retain: true
 
+- alias: 'Schachtpumpe EIN'
+  initial_state: True
+  trigger:
+    platform: mqtt
+    topic: cmnd/schachtrelais/POWER1
+    payload: 'ON'
+  action:
+    service: switch.turn_on
+    entity_id: switch.schachtpumpe
+
+- alias: 'Schachtpumpe AUS'
+  initial_state: True
+  hide_entity: False
+  trigger:
+    platform: state
+    entity_id: switch.schachtpumpe
+    to: 'on'
+    for:
+      minutes: 2
+  action:
+    service: homeassistant.turn_off
+    entity_id: switch.schachtpumpe
+
+- alias: 'Poolpumpe EIN um 08:00'
+  trigger:
+    platform: time
+    at: '08:00:00'
+  action:
+    service: switch.turn_on
+    entity_id: switch.poolpumpe
+- alias: 'Poolpumpe AUS um 11:00'
+  trigger:
+    platform: time
+    at: '11:00:00'
+  action:
+    service: switch.turn_off
+    entity_id: switch.poolpumpe
+
+- alias: 'Waermepumpe EIN um 08:00'
+  trigger:
+    platform: time
+    at: '08:00:00'
+#  condition:
+#    condition: numeric_state
+#    entity_id: sensor.pws_temp_high_1d_c
+#    below: 25
+  action:
+    service: switch.turn_on
+    entity_id: switch.waermepumpe
+- alias: 'Waermepumpe AUS um 14:00'
+  trigger:
+    platform: time
+    at: '14:00:00'
+  action:
+    service: switch.turn_off
+    entity_id: switch.waermepumpe
+
+- id: Poollicht Trigger
+  initial_state: True
+  alias: Toggle Poollicht Remote A
+  trigger:
+    -  platform: mqtt
+       topic: "sensors/rtl_433/Smoke detector GS 558/code"
+  condition: 
+    - condition: template
+      value_template: '{{ "78f195" in trigger.payload }}'
+  action:
+    -  service: switch.toggle
+       entity_id: switch.poollicht
+
+- id: Rolladen Trigger
+  initial_state: True
+  alias: Rolladen Terrasse Remote B
+  trigger:
+    -  platform: mqtt
+       topic: "sensors/rtl_433/Smoke detector GS 558/code"
+  condition: 
+    - condition: template
+      value_template: '{{ "4f3195" in trigger.payload }}'
+  action:
+    -  service: cover.open_cover
+       entity_id: cover.terrasse

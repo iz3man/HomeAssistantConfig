@@ -1,3 +1,60 @@
+
+- platform: mqtt
+  state_topic: "landroid/status/statusDescription"
+  name: 'Worx Status'
+  value_template: '{{ value_json }}'
+
+- platform: mqtt
+  state_topic: "landroid/status/errorDescription"
+  name: 'Worx Error'
+  value_template: '{{ value_json }}'
+
+- platform: mqtt
+  state_topic: "landroid/status/totalBladeTime"
+  name: 'Worx Blade Time'
+  value_template: '{{ value_json }}'
+
+- platform: mqtt
+  state_topic: "landroid/status/batteryLevel"
+  name: 'Worx Battery Level'
+  unit_of_measurement: '%'
+  value_template: '{{ value_json }}'
+
+- platform: mqtt
+  state_topic: "landroid/status/batteryTemperature"
+  name: 'Worx Battery Temperature'
+  unit_of_measurement: 'C'
+  value_template: '{{ value_json }}'
+
+- platform: mqtt
+  state_topic: "landroid/status/wifiQuality"
+  name: 'Worx Wifi Quality'
+  unit_of_measurement: 'dB'
+  value_template: '{{ value_json }}'
+
+- platform: mqtt
+  state_topic: "landroid/status/statusDescription"
+  name: 'Status'
+  value_template: '{{ value_json }}'
+
+- platform: mqtt
+  state_topic: "landroid/status/batteryVoltage"
+  name: 'Worx Battery Voltage'
+  unit_of_measurement: 'V'
+  value_template: '{{ value_json }}'
+
+- platform: mqtt
+  state_topic: "landroid/status/batteryCharging"
+  name: 'Worx charging'
+  value_template: '{{ value_json }}'
+
+- platform: mqtt
+  state_topic: "landroid/status/batteryChargeCycle"
+  name: 'Worx Charge Cycles'
+  value_template: '{{ value_json }}'
+
+
+
 - platform: time_date
   display_options:
       - 'time'
